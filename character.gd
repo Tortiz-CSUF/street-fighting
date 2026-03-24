@@ -12,7 +12,7 @@ extends CharacterBody2D
 const JUMP_HEIGHT_SPEED := 120.0
 const GRAVITY := 400.0
 
-enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND}
+enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND, JUMP_KICK}
 
 var state = State.IDLE
 
