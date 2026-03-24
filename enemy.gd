@@ -1,25 +1,52 @@
 extends CharacterBody2D
 
+@export var speed: float = 30.0
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@onready var animation_player := $AnimationPlayer
+@onready var character_sprite := $CharacterSprite
 
+var player: CharacterBody2D = null
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+enum State {IDLE, WALK}
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+var state = State.IDLE
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
+func _process(delta: float) -> void:
+	if player == null:
+		return
+	
+	
+	
+func handle_mpvement() -> void:
+	var direction := (player.global_position - global_position).normalized()
+	velocity = direction * speed
+	state = State.WALK	
+	
+func handle_animation() -> void:
+	var anim_name := ""
+	
+	if state == State.IDLE:
+		anim_name = "idle"
+	elif state == State.WALK:
+		anim_name = "walk"
+		
+	if animation_player.current_animation != anim_name:
+		animation_player.play(anim_name)
+	
+func flip_sprites() -> void:
+	if player == null:
+		return 
+	if player.global_position.x > global_position.x:
+		character_sprite.flip_h = false
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
+		character_sprite.flip_h = true
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
