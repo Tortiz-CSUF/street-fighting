@@ -26,6 +26,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	handle_input()
 	handle_movement()
+	handle_jump(delta)
 	handle_animation()
 	flip_sprites()
 	move_and_slide()
@@ -60,12 +61,12 @@ func handle_jump(delta: float) -> void:
 		height_speed -= GRAVITY * delta
 		height += height_speed * delta
 		
-	if height <= 0.0:
-		height = 0.0
-		height_speed = 0.0
-		character_sprite.position.y = 0.0
-		state = State.JUMP_LAND
-		return
+		if height <= 0.0:
+			height = 0.0
+			height_speed = 0.0
+			character_sprite.position.y = 0.0
+			state = State.JUMP_LAND
+			return
 		
 	character_sprite.position.y = -height
 	
@@ -82,6 +83,7 @@ func handle_animation() -> void:
 		animation_player.play("jump_air")
 	elif state == State.JUMP_LAND:
 		animation_player.play("jump_land")
+		
 		
 func flip_sprites() -> void:
 	#facing right
