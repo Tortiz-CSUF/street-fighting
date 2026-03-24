@@ -68,21 +68,26 @@ func handle_jump(delta: float) -> void:
 			state = State.JUMP_LAND
 			return
 		
-	character_sprite.position.y = -height
+		character_sprite.position.y = -height
 	
 func handle_animation() -> void:
+	var anim_name := ""
+	
 	if state == State.IDLE:
-		animation_player.play("idle")
+		anim_name = "idle"
 	elif state == State.WALK:
-		animation_player.play("walk")
+		anim_name = "walk"
 	elif state == State.ATTACK:
-		animation_player.play("punch")
+		anim_name = "punch"
 	elif state == State.JUMP_TAKEOFF:
-		animation_player.play("jump_takeoff")
+		anim_name = "jump_takeoff"
 	elif state == State.JUMP_AIR:
-		animation_player.play("jump_air")
+		anim_name = "jump_air"
 	elif state == State.JUMP_LAND:
-		animation_player.play("jump_land")
+		anim_name = "jump_land"
+		
+	if animation_player.current_animation != anim_name:
+		animation_player.play(anim_name)
 		
 		
 func flip_sprites() -> void:
