@@ -49,3 +49,4 @@ speed = 25.0
 
 [node name="Enemy2" parent="ActorsContainer" unique_id=1099300664 groups=["enemies"] instance=ExtResource("5_036b0")]
 position = Vector2(166, 38)
+speed = 25.0

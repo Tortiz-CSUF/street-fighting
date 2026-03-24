@@ -69,6 +69,7 @@ height = 26.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=595912586]
 script = ExtResource("1_ixshx")
+speed = 25.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1762870342]
 rotation = 1.5707964

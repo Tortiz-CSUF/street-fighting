@@ -4,8 +4,8 @@ extends Node2D
 @onready var camera := $Camera
 
 var enemy_slots := [
-	Vector2(-40, 0),
-	Vector2(40, 0),
+	Vector2(-15, 0),
+	Vector2(15, 0),
 	
 ]
 
