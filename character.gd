@@ -12,7 +12,7 @@ extends CharacterBody2D
 const JUMP_HEIGHT_SPEED := 120.0
 const GRAVITY := 400.0
 
-enum State {IDLE,WALK,ATTACK}
+enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND}
 
 var state = State.IDLE
 
@@ -36,14 +36,24 @@ func handle_movement():
 			state = State.IDLE
 		else:
 			state = State.WALK
-	else:
-		velocity = Vector2.ZERO
+	#else:
+		#velocity = Vector2.ZERO
 		
 func handle_input() -> void:
 	var direction := Input.get_vector("ui_left","ui_right","ui_up","ui_down")
-	velocity = direction * speed
+	
+	if can_move():
+		velocity = direction * speed	
+	elif is_airborne():
+		velocity = direction * speed
+	else:
+		velocity = Vector2.ZERO
+	
 	if can_attack() and Input.is_action_just_pressed("attack"):
 		state = State.ATTACK
+		
+	if can_jump() and Input.is_action_just_pressed("jump"):
+		state = State.JUMP_TAKEOFF
 	
 func handle_animation() -> void:
 	if state == State.IDLE:
@@ -67,7 +77,12 @@ func can_move() -> bool:
 
 func can_attack() -> bool:
 	return state == State.IDLE or state == State.WALK
+	
+func can_jump() -> bool:
+	return state == State.IDLE or state == State.WALK
 		
+func is_airborne() -> bool:
+	return state == State.JUMP_TAKEOFF or state == State.JUMP_AIR
 
 func on_action_complete() -> void:
 	state = State.IDLE
