@@ -73,6 +73,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_xo8ps"]
 resource_name = "jump_kick"
 length = 0.1
+loop_mode = 2
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false

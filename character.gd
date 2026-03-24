@@ -52,7 +52,7 @@ func handle_input() -> void:
 	if can_attack() and Input.is_action_just_pressed("attack"):
 		state = State.ATTACK
 		
-	if state ==- State.JUMP_AIR and Input.is_action_just_pressed("attack"):
+	if state == State.JUMP_AIR or Input.is_action_just_pressed("attack"):
 		state = State.JUMP_KICK
 		
 	if can_jump() and Input.is_action_just_pressed("jump"):
@@ -113,7 +113,7 @@ func can_jump() -> bool:
 	return state == State.IDLE or state == State.WALK
 		
 func is_airborne() -> bool:
-	return state == State.JUMP_TAKEOFF or state == State.JUMP_AIR
+	return state == State.JUMP_TAKEOFF or state == State.JUMP_AIR or state == State.JUMP_KICK
 
 func on_action_complete() -> void:
 	if state == State.JUMP_TAKEOFF:
