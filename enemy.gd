@@ -15,9 +15,12 @@ func _process(delta: float) -> void:
 	if player == null:
 		return
 	
+	handle_movement()
+	handle_animation()
+	flip_sprites()
+	move_and_slide()
 	
-	
-func handle_mpvement() -> void:
+func handle_movement() -> void:
 	var direction := (player.global_position - global_position).normalized()
 	velocity = direction * speed
 	state = State.WALK	

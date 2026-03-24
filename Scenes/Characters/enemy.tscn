@@ -63,6 +63,10 @@ _data = {
 &"walk": SubResource("Animation_4453e")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ixshx"]
+radius = 7.0
+height = 26.0
+
 [node name="Enemy" type="CharacterBody2D" unique_id=595912586]
 script = ExtResource("1_ixshx")
 
@@ -89,3 +93,5 @@ offset = Vector2(-7, 0)
 [node name="DamageReceiver" type="Area2D" parent="." unique_id=16592021]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageReceiver" unique_id=2115857715]
+position = Vector2(0, -13)
+shape = SubResource("CapsuleShape2D_ixshx")
