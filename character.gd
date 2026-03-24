@@ -137,6 +137,7 @@ func on_action_complete() -> void:
 		character_sprite.position.y = 0.0
 
 func on_emit_damage(damage_receiver:DamageReceiver) -> void:
+	print("HIT DETECTED")
 	var direction := Vector2.LEFT if damage_receiver.global_position.x < global_position.x else Vector2.RIGHT
 	
 	damage_receiver.damage_received.emit(damage,direction)
