@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bg0w6e37vfcq1" path="res://assets/art/characters/enemy_goon.png" id="1_b1c4r"]
 [ext_resource type="Script" uid="uid://dcld53ygw1jnk" path="res://enemy.gd" id="1_ixshx"]
 [ext_resource type="Texture2D" uid="uid://c18ud08lfadk2" path="res://assets/art/characters/shadow.png" id="2_ixshx"]
+[ext_resource type="Script" uid="uid://b3pstixs3ckdh" path="res://Colliders/damage_receiver.gd" id="4_4453e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4453e"]
 radius = 2.0
@@ -109,6 +110,9 @@ centered = false
 offset = Vector2(-7, 0)
 
 [node name="DamageReceiver" type="Area2D" parent="." unique_id=16592021]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("4_4453e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageReceiver" unique_id=2115857715]
 position = Vector2(0, -13)

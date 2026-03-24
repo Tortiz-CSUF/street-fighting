@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d0jwgn07n88cc" path="res://Scenes/Characters/character.tscn" id="1_3etf2"]
 [ext_resource type="Texture2D" uid="uid://bxyb33f5nhu6d" path="res://assets/art/characters/player.png" id="2_40svl"]
+[ext_resource type="Script" uid="uid://b3pstixs3ckdh" path="res://Colliders/damage_receiver.gd" id="3_al8ar"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_al8ar"]
 radius = 2.0
@@ -278,6 +279,7 @@ position = Vector2(12, -12)
 shape = SubResource("RectangleShape2D_40svl")
 
 [node name="DamageReceiver" type="Area2D" parent="." index="5" unique_id=440711460]
+script = ExtResource("3_al8ar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=2113603024]
 position = Vector2(0, -13)
