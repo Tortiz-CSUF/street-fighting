@@ -105,7 +105,13 @@ func is_airborne() -> bool:
 	return state == State.JUMP_TAKEOFF or state == State.JUMP_AIR
 
 func on_action_complete() -> void:
-	state = State.IDLE
+	if state == State.JUMP_TAKEOFF:
+		state = State.JUMP_AIR
+		height_speed = JUMP_HEIGHT_SPEED
+	else:
+		state = State.IDLE
+		height = 0.0
+		character_sprite.position.y = 0.0
 
 func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	var direction := Vector2.LEFT if damage_receiver.global_position.x < global_position.x else Vector2.RIGHT
