@@ -9,9 +9,9 @@ extends CharacterBody2D
 
 var player: CharacterBody2D = null
 
-enum State {IDLE, WALK, HURT}
+enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED}
 
-const KNOCKBACK_STRENGTH := 100.0
+const KNOCKBACK_STRENGTH := 150.0
 
 var state = State.IDLE
 var slot_offset := Vector2.ZERO
