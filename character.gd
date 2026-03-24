@@ -52,14 +52,14 @@ func handle_input() -> void:
 	if can_attack() and Input.is_action_just_pressed("attack"):
 		state = State.ATTACK
 		
-	if state == State.JUMP_AIR or Input.is_action_just_pressed("attack"):
+	if state == State.JUMP_AIR and Input.is_action_just_pressed("attack"):
 		state = State.JUMP_KICK
 		
 	if can_jump() and Input.is_action_just_pressed("jump"):
 		state = State.JUMP_TAKEOFF
 		
 func handle_jump(delta: float) -> void:
-	if state == State.JUMP_AIR or Input.is_action_just_pressed("attack"):
+	if state == State.JUMP_AIR or state == State.JUMP_KICK:
 		height_speed -= GRAVITY * delta
 		height += height_speed * delta
 		
