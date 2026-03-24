@@ -7,22 +7,28 @@ extends CharacterBody2D
 @onready var animation_player := $AnimationPlayer
 @onready var character_sprite := $CharacterSprite
 @onready var damage_emitter := $DamageEmitter
+@onready var damage_receiver := $DamageReceiver
 
 ## Jump Consts
 const JUMP_HEIGHT_SPEED := 120.0
 const GRAVITY := 400.0
+const KNOCKBACK_STRENGTH := 100.0
 
-enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND, JUMP_KICK}
+enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND, JUMP_KICK, HURT}
 
 var state = State.IDLE
 
 ## Jump height
 var height := 0.0
 var height_speed := 0.0
+var knockback_velocity := Vector2.ZERO
+
 
 func _ready() -> void:
 	damage_emitter.area_entered.connect(on_emit_damage.bind())
 	animation_player.animation_finished.connect(on_animation_finished.bind())
+	damage_receiver.damage_received.connect(on_receive_damage.bind())
+	
 
 func _process(delta: float) -> void:
 	handle_input()
@@ -89,6 +95,8 @@ func handle_animation() -> void:
 		anim_name = "jump_land"
 	elif state == State.JUMP_KICK:
 		anim_name = "jump_kick"
+	elif state == State.HURT:
+		anim_name = "hurt"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
@@ -129,6 +137,14 @@ func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	
 	damage_receiver.damage_received.emit(damage,direction)
 	print(damage_receiver)
+	
+func on_receive_damage(dmg: int, direction: Vector2) -> void:
+	if state == State.HURT:
+		return
+	
+	health -= dmg
+	state = State.HURT
+	knockback_velocity = direction * KNOCKBACK_STRENGTH
 
 func on_animation_finished(anim_name: String) -> void:
 	if anim_name == "jump_takeoff":
@@ -138,3 +154,6 @@ func on_animation_finished(anim_name: String) -> void:
 		state = State.IDLE
 		height = 0.0
 		character_sprite.position.y = 0.0
+	elif anim_name == "hurt":
+		state = State.IDLE
+		knockback_velocity = Vector2.ZERO
