@@ -36,6 +36,10 @@ func _process(delta: float) -> void:
 	handle_jump(delta)
 	handle_animation()
 	flip_sprites()
+	
+	if state == State.HURT:
+		velocity = knockback_velocity
+		
 	move_and_slide()
 
 func handle_movement():
