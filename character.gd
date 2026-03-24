@@ -17,6 +17,7 @@ const KNOCKBACK_STRENGTH := 100.0
 enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND, JUMP_KICK, HURT}
 
 var state = State.IDLE
+var has_hit := false
 
 ## Jump height
 var height := 0.0
@@ -128,6 +129,9 @@ func is_airborne() -> bool:
 	return state == State.JUMP_TAKEOFF or state == State.JUMP_AIR or state == State.JUMP_KICK
 
 func on_action_complete() -> void:
+	has_hit = false
+	state = State.IDLE
+	
 	if state == State.JUMP_TAKEOFF:
 		state = State.JUMP_AIR
 		height_speed = JUMP_HEIGHT_SPEED
@@ -137,7 +141,10 @@ func on_action_complete() -> void:
 		character_sprite.position.y = 0.0
 
 func on_emit_damage(damage_receiver:DamageReceiver) -> void:
-	print("HIT DETECTED")
+	if has_hit:
+		return
+	has_hit = true
+		
 	var direction := Vector2.LEFT if damage_receiver.global_position.x < global_position.x else Vector2.RIGHT
 	
 	damage_receiver.damage_received.emit(damage,direction)
