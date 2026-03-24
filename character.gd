@@ -69,3 +69,6 @@ func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	
 	damage_receiver.damage_received.emit(damage,direction)
 	print(damage_receiver)
+
+
+### test for init commit
