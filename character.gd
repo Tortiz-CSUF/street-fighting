@@ -54,6 +54,20 @@ func handle_input() -> void:
 		
 	if can_jump() and Input.is_action_just_pressed("jump"):
 		state = State.JUMP_TAKEOFF
+		
+func handle_jump(delta: float) -> void:
+	if state == State.JUMP_AIR:
+		height_speed -= GRAVITY * delta
+		height += height_speed * delta
+		
+	if height <= 0.0:
+		height = 0.0
+		height_speed = 0.0
+		character_sprite.position.y = 0.0
+		state = State.JUMP_LAND
+		return
+		
+	character_sprite.position.y = -height
 	
 func handle_animation() -> void:
 	if state == State.IDLE:
@@ -62,6 +76,12 @@ func handle_animation() -> void:
 		animation_player.play("walk")
 	elif state == State.ATTACK:
 		animation_player.play("punch")
+	elif state == State.JUMP_TAKEOFF:
+		animation_player.play("jump_takeoff")
+	elif state == State.JUMP_AIR:
+		animation_player.play("jump_air")
+	elif state == State.JUMP_LAND:
+		animation_player.play("jump_land")
 		
 func flip_sprites() -> void:
 	#facing right
