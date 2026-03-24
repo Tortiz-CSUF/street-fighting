@@ -22,6 +22,7 @@ var height_speed := 0.0
 
 func _ready() -> void:
 	damage_emitter.area_entered.connect(on_emit_damage.bind())
+	animation_player.animation_finished.connect(on_animation_finished.bind())
 
 func _process(delta: float) -> void:
 	handle_input()
@@ -125,3 +126,12 @@ func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	
 	damage_receiver.damage_received.emit(damage,direction)
 	print(damage_receiver)
+
+func on_animation_finished(anim_name: String) -> void:
+	if anim_name == "jump_takeoff":
+		state = State.JUMP_AIR
+		height_speed = JUMP_HEIGHT_SPEED
+	elif anim_name == "jump_land":
+		state = State.IDLE
+		height = 0.0
+		character_sprite.position.y = 0.0
