@@ -111,7 +111,7 @@ offset = Vector2(-7, 0)
 
 [node name="DamageReceiver" type="Area2D" parent="." unique_id=16592021]
 collision_layer = 0
-collision_mask = 32
+collision_mask = 96
 script = ExtResource("4_4453e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageReceiver" unique_id=2115857715]
