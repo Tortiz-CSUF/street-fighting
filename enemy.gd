@@ -10,6 +10,7 @@ var player: CharacterBody2D = null
 enum State {IDLE, WALK}
 
 var state = State.IDLE
+var slot_offset := Vector2.ZERO
 
 func _process(delta: float) -> void:
 	if player == null:
@@ -21,7 +22,15 @@ func _process(delta: float) -> void:
 	move_and_slide()
 	
 func handle_movement() -> void:
-	var direction := (player.global_position - global_position).normalized()
+	var target := player.global_position + slot_offset
+	var distance := global_position.distance_to(target)
+	
+	if distance < 5.0:
+		velocity = Vector2.ZERO
+		state = State.IDLE
+		return
+		
+	var direction := (target - global_position).normalized()
 	velocity = direction * speed
 	state = State.WALK	
 	
