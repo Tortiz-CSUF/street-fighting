@@ -65,6 +65,8 @@ func handle_input() -> void:
 		
 	if state == State.JUMP_AIR and Input.is_action_just_pressed("attack"):
 		state = State.JUMP_KICK
+		has_hit = false
+		damage_emitter.monitoring = true
 		
 	if can_jump() and Input.is_action_just_pressed("jump"):
 		state = State.JUMP_TAKEOFF
@@ -146,11 +148,12 @@ func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	has_hit = true
 		
 	var direction := Vector2.LEFT if damage_receiver.global_position.x < global_position.x else Vector2.RIGHT
+	var knockdown: bool = (state == State.JUMP_KICK)
 	
-	damage_receiver.damage_received.emit(damage,direction)
+	damage_receiver.damage_received.emit(damage, direction, knockdown)
 	print(damage_receiver)
 	
-func on_receive_damage(dmg: int, direction: Vector2) -> void:
+func on_receive_damage(dmg: int, direction: Vector2, is_knockdown: bool = false) -> void:
 	if state == State.HURT:
 		return
 	
@@ -166,6 +169,7 @@ func on_animation_finished(anim_name: String) -> void:
 		state = State.IDLE
 		height = 0.0
 		character_sprite.position.y = 0.0
+		damage_emitter.monitoring = false
 	elif anim_name == "hurt":
 		state = State.IDLE
 		knockback_velocity = Vector2.ZERO
