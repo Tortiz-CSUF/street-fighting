@@ -8,9 +8,17 @@ extends CharacterBody2D
 @onready var character_sprite := $CharacterSprite
 @onready var damage_emitter := $DamageEmitter
 
+## Jump Consts
+const JUMP_HEIGHT_SPEED := 120.0
+const GRAVITY := 400.0
+
 enum State {IDLE,WALK,ATTACK}
 
 var state = State.IDLE
+
+## Jump height
+var height := 0.0
+var height_speed := 0.0
 
 func _ready() -> void:
 	damage_emitter.area_entered.connect(on_emit_damage.bind())
@@ -69,6 +77,3 @@ func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	
 	damage_receiver.damage_received.emit(damage,direction)
 	print(damage_receiver)
-
-
-### test for init commit
