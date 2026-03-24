@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 	move_and_slide()
 	
 func handle_movement() -> void:
-	if state == State.HURT:
+	if state == State.HURT or state == State.KNOCKDOWN or state == State.GROUNDED:
 		velocity = knockback_velocity
 		return
 	
@@ -54,8 +54,12 @@ func handle_animation() -> void:
 		anim_name = "idle"
 	elif state == State.WALK:
 		anim_name = "walk"
-	elif  state == State.HURT:
+	elif state == State.HURT:
 		anim_name = "hurt"
+	elif state == State.GROUNDED:
+		anim_name = "knockdown"
+	elif state == State.GROUNDED:
+		anim_name = "grounded"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
@@ -64,6 +68,11 @@ func on_animation_finished(anim_name: String) -> void:
 	if anim_name == "hurt":
 		state = State.IDLE
 		knockback_velocity = Vector2.ZERO
+	elif anim_name == "knockdown":
+		state = State.GROUNDED
+		knockback_velocity = Vector2.ZERO
+	elif anim_name == "grounded":
+		state = State.IDLE
 	
 func flip_sprites() -> void:
 	if player == null:
@@ -73,12 +82,16 @@ func flip_sprites() -> void:
 	else:
 		character_sprite.flip_h = true
 	
-func on_receive_damage(dmg: int, direction: Vector2) -> void:
-	if state == State.HURT:
+func on_receive_damage(dmg: int, direction: Vector2, is_knckdown: bool = false) -> void:
+	if state == State.HURT or state == State.KNOCKDOWN or state == State.GROUNDED:
 		return
 	health -= dmg
-	state = State.HURT
-	knockback_velocity = direction * KNOCKBACK_STRENGTH
+	if is_knckdown:
+		state = State.KNOCKDOWN
+		knockback_velocity = direction * KNOCKBACK_STRENGTH
+	else:
+		state = State.HURT
+		knockback_velocity = direction * KNOCKBACK_STRENGTH
 	
 	
 	
