@@ -44,21 +44,22 @@ func handle_movement():
 func handle_input() -> void:
 	var direction := Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	
-	if can_move():
+	if can_move() or is_airborne():
 		velocity = direction * speed	
-	elif is_airborne():
-		velocity = direction * speed
 	else:
 		velocity = Vector2.ZERO
 	
 	if can_attack() and Input.is_action_just_pressed("attack"):
 		state = State.ATTACK
 		
+	if state ==- State.JUMP_AIR and Input.is_action_just_pressed("attack"):
+		state = State.JUMP_KICK
+		
 	if can_jump() and Input.is_action_just_pressed("jump"):
 		state = State.JUMP_TAKEOFF
 		
 func handle_jump(delta: float) -> void:
-	if state == State.JUMP_AIR:
+	if state == State.JUMP_AIR or Input.is_action_just_pressed("attack"):
 		height_speed -= GRAVITY * delta
 		height += height_speed * delta
 		
@@ -86,6 +87,8 @@ func handle_animation() -> void:
 		anim_name = "jump_air"
 	elif state == State.JUMP_LAND:
 		anim_name = "jump_land"
+	elif state == State.JUMP_KICK:
+		anim_name = "jump_kick"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
