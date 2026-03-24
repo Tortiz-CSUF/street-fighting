@@ -3,9 +3,18 @@ extends Node2D
 @onready var player := $ActorsContainer/Player
 @onready var camera := $Camera
 
+var enemy_slots := [
+	Vector2(-40, 0),
+	Vector2(40, 0),
+	
+]
+
 func _ready() -> void:
-	for enemy in get_tree().get_nodes_in_group("enemies"):
-		enemy.player = player	
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for i in enemies.size():
+		enemies[i].player = player
+		enemies[i].slot_offset = enemy_slots[i % enemy_slots.size()]
+		
 func _process(delta: float) -> void:
 	if player.position.x > camera.position.x:
 		camera.position.x = player.position.x
