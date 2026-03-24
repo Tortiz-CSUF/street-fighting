@@ -31,8 +31,11 @@ func _process(delta: float) -> void:
 	move_and_slide()
 	
 func handle_movement() -> void:
-	if state == State.HURT or state == State.KNOCKDOWN or state == State.GROUNDED:
+	if state == State.HURT or state == State.KNOCKDOWN:
 		velocity = knockback_velocity
+		return
+	if state == State.GROUNDED:
+		velocity = Vector2.ZERO
 		return
 	
 	var target := player.global_position + slot_offset
@@ -56,7 +59,7 @@ func handle_animation() -> void:
 		anim_name = "walk"
 	elif state == State.HURT:
 		anim_name = "hurt"
-	elif state == State.GROUNDED:
+	elif state == State.KNOCKDOWN:
 		anim_name = "knockdown"
 	elif state == State.GROUNDED:
 		anim_name = "grounded"
