@@ -273,22 +273,22 @@ health = 30
 damage = 4
 speed = 35.0
 
-[node name="CollisionShape2D" parent="." index="0"]
+[node name="CollisionShape2D" parent="." index="0" unique_id=985787119]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_al8ar")
 
-[node name="AnimationPlayer" parent="." index="1"]
+[node name="AnimationPlayer" parent="." index="1" unique_id=1770254086]
 libraries/ = SubResource("AnimationLibrary_gy20a")
 autoplay = &"idle"
 
-[node name="CharacterSprite" parent="." index="2"]
+[node name="CharacterSprite" parent="." index="2" unique_id=1479349826]
 texture = ExtResource("2_40svl")
 centered = false
 offset = Vector2(-24, -48)
 hframes = 10
 vframes = 10
 
-[node name="DamageEmitter" parent="." index="4"]
+[node name="DamageEmitter" parent="." index="4" unique_id=892620346]
 position = Vector2(-1, 0)
 collision_mask = 96
 

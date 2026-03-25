@@ -92,6 +92,10 @@ func handle_jump(delta: float) -> void:
 func handle_animation() -> void:
 	var anim_name := ""
 	
+	if not animation_player.is_playing():
+		if state == State.DEATH:
+			return
+	
 	if state == State.IDLE:
 		anim_name = "idle"
 	elif state == State.WALK:
@@ -188,6 +192,6 @@ func on_animation_finished(anim_name: String) -> void:
 		
 func fade_out() -> void:
 	var tween = create_tween()
-	tween.tween_interval(1.0)
+	tween.tween_interval(0.5)
 	tween.tween_property(self, "modulate.a", 0.0, 0.5)
 	tween.tween_callback(queue_free)

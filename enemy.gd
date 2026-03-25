@@ -74,7 +74,6 @@ func handle_animation() -> void:
 		animation_player.play(anim_name)
 
 func on_animation_finished(anim_name: String) -> void:
-	print ("Animation finished: ", anim_name)
 	if anim_name == "hurt":
 		state = State.IDLE
 		knockback_velocity = Vector2.ZERO
@@ -112,7 +111,7 @@ func on_receive_damage(dmg: int, direction: Vector2, is_knckdown: bool = false) 
 	
 func fade_out() -> void:
 	var tween = create_tween()
-	tween.tween_interval(1.0)
+	tween.tween_interval(0.5)
 	tween.tween_property(self, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(queue_free)
 	
