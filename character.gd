@@ -168,6 +168,7 @@ func on_receive_damage(dmg: int, direction: Vector2, is_knockdown: bool = false)
 		return
 	
 	health -= dmg
+	print("player health: ", health)
 	if health <= 0:
 		state = State.DEATH
 		knockback_velocity = Vector2.ZERO

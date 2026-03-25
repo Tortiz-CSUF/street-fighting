@@ -107,8 +107,10 @@ func flip_sprites() -> void:
 		return 
 	if player.global_position.x > global_position.x:
 		character_sprite.flip_h = false
+		damage_emmiter.scale.x = 1
 	else:
 		character_sprite.flip_h = true
+		damage_emmiter.scale.x = -1
 
 func on_emit_damage(damage_receiver: DamageReceiver) -> void:
 	if has_hit:
