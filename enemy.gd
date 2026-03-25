@@ -6,10 +6,11 @@ extends CharacterBody2D
 @onready var animation_player := $AnimationPlayer
 @onready var character_sprite := $CharacterSprite
 @onready var damage_receiver := $DamageReceiver
+@onready var damage_emmiter := $DamageEmiiter
 
 var player: CharacterBody2D = null
 
-enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH}
+enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK}
 
 const KNOCKBACK_STRENGTH := 150.0
 
