@@ -32,6 +32,10 @@ func _ready() -> void:
 	
 
 func _process(delta: float) -> void:
+	if state == State.DEATH:
+		handle_animation()
+		return
+		
 	handle_input()
 	handle_movement()
 	handle_jump(delta)
@@ -156,10 +160,14 @@ func on_emit_damage(damage_receiver:DamageReceiver) -> void:
 	print(damage_receiver)
 	
 func on_receive_damage(dmg: int, direction: Vector2, is_knockdown: bool = false) -> void:
-	if state == State.HURT:
+	if state == State.HURT or state == State.DEATH:
 		return
 	
 	health -= dmg
+	if health <= 0:
+		state = State.DEATH
+		knockback_velocity = Vector2.ZERO
+		
 	state = State.HURT
 	knockback_velocity = direction * KNOCKBACK_STRENGTH
 
@@ -175,3 +183,10 @@ func on_animation_finished(anim_name: String) -> void:
 	elif anim_name == "hurt":
 		state = State.IDLE
 		knockback_velocity = Vector2.ZERO
+	elif anim_name == "death":
+		fade_out()
+		
+func fade_out() -> void:
+	var tween = create_tween()
+	tween.tween_property(self, "modulate.a", 0.0, 0.5)
+	tween.tween_callback(queue_free)
