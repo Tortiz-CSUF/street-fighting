@@ -66,11 +66,6 @@ func handle_movement() -> void:
 			state = State.ATTACK
 		return
 		
-	if distance < ATTACK_RANGE + 5.0:
-		velocity = Vector2.ZERO
-		state = State.IDLE
-		return
-		
 	var direction := (target - global_position).normalized()
 	velocity = direction * speed
 	state = State.WALK	
