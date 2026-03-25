@@ -16,5 +16,8 @@ func _ready() -> void:
 		enemies[i].slot_offset = enemy_slots[i % enemy_slots.size()]
 		
 func _process(delta: float) -> void:
+	if player == null or not is_instance_valid(player):
+		return
+		
 	if player.position.x > camera.position.x:
 		camera.position.x = player.position.x

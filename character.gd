@@ -113,7 +113,7 @@ func handle_animation() -> void:
 	elif state == State.HURT:
 		anim_name = "hurt"
 	elif  state == State.DEATH:
-		anim_name == "death"
+		anim_name = "death"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
@@ -168,10 +168,10 @@ func on_receive_damage(dmg: int, direction: Vector2, is_knockdown: bool = false)
 		return
 	
 	health -= dmg
-	print("player health: ", health)
 	if health <= 0:
 		state = State.DEATH
 		knockback_velocity = Vector2.ZERO
+		return
 		
 	state = State.HURT
 	knockback_velocity = direction * KNOCKBACK_STRENGTH
@@ -194,5 +194,5 @@ func on_animation_finished(anim_name: String) -> void:
 func fade_out() -> void:
 	var tween = create_tween()
 	tween.tween_interval(0.5)
-	tween.tween_property(self, "modulate.a", 0.0, 0.5)
+	tween.tween_property(self, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(queue_free)
