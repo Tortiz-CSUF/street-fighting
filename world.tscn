@@ -39,6 +39,7 @@ y_sort_enabled = true
 position = Vector2(67, 43)
 collision_layer = 1
 collision_mask = 1
+health = 4
 
 [node name="Barrel" parent="ActorsContainer" unique_id=752524732 instance=ExtResource("4_aqk2v")]
 position = Vector2(111, 43)

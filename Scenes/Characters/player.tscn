@@ -297,6 +297,8 @@ position = Vector2(12, -12)
 shape = SubResource("RectangleShape2D_40svl")
 
 [node name="DamageReceiver" type="Area2D" parent="." index="5" unique_id=440711460]
+collision_layer = 128
+collision_mask = 0
 script = ExtResource("3_al8ar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=2113603024]

@@ -7,14 +7,14 @@ extends CharacterBody2D
 @onready var animation_player := $AnimationPlayer
 @onready var character_sprite := $CharacterSprite
 @onready var damage_receiver := $DamageReceiver
-@onready var damage_emmiter := $DamageEmiiter
+@onready var damage_emmiter := $DamageEmitter
 
 var player: CharacterBody2D = null
 
 enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK}
 
 const KNOCKBACK_STRENGTH := 150.0
-const ATTACK_RANGE := 20.0
+const ATTACK_RANGE := 5.0
 
 var state = State.IDLE
 var slot_offset := Vector2.ZERO
@@ -61,7 +61,7 @@ func handle_animation() -> void:
 	var anim_name := ""
 	
 	if not animation_player.is_playing():
-		if state == State.DEATH or state == State.KNOCKDOWN or state == State.GROUNDED:
+		if state == State.DEATH or state == State.KNOCKDOWN or state == State.GROUNDED or state == State.ATTACK:
 			return
 	
 	if state == State.IDLE:
