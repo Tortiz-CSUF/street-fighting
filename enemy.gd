@@ -16,7 +16,7 @@ enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK, COOLDOWN}
 const KNOCKBACK_STRENGTH := 150.0
 const ATTACK_RANGE := 10.0
 const MAX_PUNCHES := 3
-const PUNCH_COOLDOWN := 3.0
+const PUNCH_COOLDOWN := 1.0
 
 var state = State.IDLE
 var slot_offset := Vector2.ZERO
@@ -73,7 +73,7 @@ func handle_animation() -> void:
 	var anim_name := ""
 	
 	if not animation_player.is_playing():
-		if state == State.DEATH or state == State.KNOCKDOWN or state == State.GROUNDED:
+		if state == State.DEATH:
 			return
 	
 	if state == State.IDLE:
