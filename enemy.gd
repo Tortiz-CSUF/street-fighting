@@ -47,6 +47,7 @@ func _process(delta: float) -> void:
 	
 func handle_movement() -> void:
 	if state == State.HURT or state == State.KNOCKDOWN:
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5.0)
 		velocity = knockback_velocity
 		return
 	if state == State.GROUNDED or state == State.DEATH or state == State.ATTACK or state == State.COOLDOWN:
@@ -63,6 +64,11 @@ func handle_movement() -> void:
 				state = State.IDLE
 				return
 			state = State.ATTACK
+		return
+		
+	if distance < ATTACK_RANGE + 5.0:
+		velocity = Vector2.ZERO
+		state = State.IDLE
 		return
 		
 	var direction := (target - global_position).normalized()

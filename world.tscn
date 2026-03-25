@@ -46,7 +46,9 @@ position = Vector2(111, 43)
 [node name="Enemy" parent="ActorsContainer" unique_id=595912586 groups=["enemies"] instance=ExtResource("5_036b0")]
 position = Vector2(353, 37)
 collision_layer = 4
+speed = 20.0
 
 [node name="Enemy2" parent="ActorsContainer" unique_id=1099300664 groups=["enemies"] instance=ExtResource("5_036b0")]
 position = Vector2(166, 38)
 collision_layer = 4
+speed = 20.0
