@@ -9,7 +9,7 @@ extends CharacterBody2D
 
 var player: CharacterBody2D = null
 
-enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED}
+enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH}
 
 const KNOCKBACK_STRENGTH := 150.0
 

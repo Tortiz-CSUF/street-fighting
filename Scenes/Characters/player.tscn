@@ -36,6 +36,23 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_25bbb"]
+resource_name = "death"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [80, 81, 82]
+}
+
 [sub_resource type="Animation" id="Animation_fcmex"]
 resource_name = "hurt"
 length = 0.3
@@ -231,6 +248,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gy20a"]
 _data = {
 &"RESET": SubResource("Animation_al8ar"),
+&"death": SubResource("Animation_25bbb"),
 &"hurt": SubResource("Animation_fcmex"),
 &"idle": SubResource("Animation_40svl"),
 &"jump_air": SubResource("Animation_khnq4"),
