@@ -53,6 +53,10 @@ func handle_movement() -> void:
 func handle_animation() -> void:
 	var anim_name := ""
 	
+	if not animation_player.is_playing():
+		if state == State.DEATH or state == State.KNOCKDOWN or state == State.GROUNDED:
+			return
+	
 	if state == State.IDLE:
 		anim_name = "idle"
 	elif state == State.WALK:
@@ -70,6 +74,7 @@ func handle_animation() -> void:
 		animation_player.play(anim_name)
 
 func on_animation_finished(anim_name: String) -> void:
+	print ("Animation finished: ", anim_name)
 	if anim_name == "hurt":
 		state = State.IDLE
 		knockback_velocity = Vector2.ZERO
