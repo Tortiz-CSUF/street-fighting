@@ -34,7 +34,7 @@ func handle_movement() -> void:
 	if state == State.HURT or state == State.KNOCKDOWN:
 		velocity = knockback_velocity
 		return
-	if state == State.GROUNDED:
+	if state == State.GROUNDED or state == State.DEATH:
 		velocity = Vector2.ZERO
 		return
 	
@@ -63,6 +63,8 @@ func handle_animation() -> void:
 		anim_name = "knockdown"
 	elif state == State.GROUNDED:
 		anim_name = "grounded"
+	elif state == State.DEATH:
+		anim_name = "death"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
@@ -76,6 +78,8 @@ func on_animation_finished(anim_name: String) -> void:
 		knockback_velocity = Vector2.ZERO
 	elif anim_name == "grounded":
 		state = State.IDLE
+	elif anim_name == "death":
+		fade_out()
 	
 func flip_sprites() -> void:
 	if player == null:
@@ -86,9 +90,14 @@ func flip_sprites() -> void:
 		character_sprite.flip_h = true
 	
 func on_receive_damage(dmg: int, direction: Vector2, is_knckdown: bool = false) -> void:
-	if state == State.HURT or state == State.KNOCKDOWN or state == State.GROUNDED:
+	if state == State.HURT or state == State.KNOCKDOWN or state == State.GROUNDED or state == State.DEATH:
 		return
 	health -= dmg
+	if health <= 0:
+		state = State.DEATH
+		knockback_velocity = Vector2.ZERO
+		return
+		
 	if is_knckdown:
 		state = State.KNOCKDOWN
 		knockback_velocity = direction * KNOCKBACK_STRENGTH
@@ -96,7 +105,10 @@ func on_receive_damage(dmg: int, direction: Vector2, is_knckdown: bool = false) 
 		state = State.HURT
 		knockback_velocity = direction * KNOCKBACK_STRENGTH
 	
-	
+func fade_out() -> void:
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(queue_free)
 	
 	
 	

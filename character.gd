@@ -14,7 +14,7 @@ const JUMP_HEIGHT_SPEED := 120.0
 const GRAVITY := 400.0
 const KNOCKBACK_STRENGTH := 100.0
 
-enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND, JUMP_KICK, HURT}
+enum State {IDLE,WALK,ATTACK, JUMP_TAKEOFF, JUMP_AIR, JUMP_LAND, JUMP_KICK, HURT, DEATH}
 
 var state = State.IDLE
 var has_hit := false
@@ -104,6 +104,8 @@ func handle_animation() -> void:
 		anim_name = "jump_kick"
 	elif state == State.HURT:
 		anim_name = "hurt"
+	elif  state == State.DEATH:
+		anim_name == "death"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
