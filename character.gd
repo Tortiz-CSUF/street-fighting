@@ -185,6 +185,7 @@ func on_animation_finished(anim_name: String) -> void:
 		height = 0.0
 		character_sprite.position.y = 0.0
 		damage_emitter.monitoring = false
+		has_hit = false
 	elif anim_name == "hurt":
 		state = State.IDLE
 		knockback_velocity = Vector2.ZERO
