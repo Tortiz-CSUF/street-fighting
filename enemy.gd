@@ -11,16 +11,20 @@ extends CharacterBody2D
 
 var player: CharacterBody2D = null
 
-enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK}
+enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK, COOLDOWN}
 
 const KNOCKBACK_STRENGTH := 150.0
 const ATTACK_RANGE := 5.0
+const MAX_PUNCHES := 3
+const PUNCH_COOLDOWN := 1.0
 
 var state = State.IDLE
 var slot_offset := Vector2.ZERO
 var knockback_velocity := Vector2.ZERO
 var has_hit := false
 var punch_left := true
+var punch_count := 0
+var cooldown_timer := 0.0
 
 func _ready() -> void:
 	damage_receiver.damage_received.connect(on_receive_damage.bind())
@@ -50,6 +54,9 @@ func handle_movement() -> void:
 	if distance < ATTACK_RANGE:
 		velocity = Vector2.ZERO
 		if state == State.WALK or state == State.IDLE:
+			if not is_instance_valid(player) or player.state == player.State.DEATH:
+				state = State.IDLE
+				return
 			state = State.ATTACK
 		return
 		
