@@ -14,9 +14,9 @@ var player: CharacterBody2D = null
 enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK, COOLDOWN}
 
 const KNOCKBACK_STRENGTH := 150.0
-const ATTACK_RANGE := 5.0
+const ATTACK_RANGE := 10.0
 const MAX_PUNCHES := 3
-const PUNCH_COOLDOWN := 1.0
+const PUNCH_COOLDOWN := 3.0
 
 var state = State.IDLE
 var slot_offset := Vector2.ZERO
@@ -34,6 +34,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if player == null:
 		return
+		
+	if state == State.COOLDOWN:
+		cooldown_timer -= delta
+		if cooldown_timer <= 0.0:
+			state = State.IDLE
 			
 	handle_movement()
 	handle_animation()
@@ -44,7 +49,7 @@ func handle_movement() -> void:
 	if state == State.HURT or state == State.KNOCKDOWN:
 		velocity = knockback_velocity
 		return
-	if state == State.GROUNDED or state == State.DEATH or state == State.ATTACK:
+	if state == State.GROUNDED or state == State.DEATH or state == State.ATTACK or state == State.COOLDOWN:
 		velocity = Vector2.ZERO
 		return
 	
@@ -88,6 +93,8 @@ func handle_animation() -> void:
 			anim_name = "punch_left"
 		else:
 			anim_name = "punch_right"
+	elif  state == State.COOLDOWN:
+		anim_name = "idle"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
@@ -104,10 +111,16 @@ func on_animation_finished(anim_name: String) -> void:
 	elif anim_name == "death":
 		fade_out()
 	elif anim_name == "punch_left" or anim_name == "punch_right":
-		state = State.IDLE
 		has_hit = false
 		damage_emmiter.monitoring = false
 		punch_left = !punch_left
+		punch_count += 1
+		if punch_count >= MAX_PUNCHES:
+			punch_count = 0
+			state = State.COOLDOWN
+			cooldown_timer = PUNCH_COOLDOWN
+		else: 
+			state = State.IDLE
 	
 func flip_sprites() -> void:
 	if player == null:
