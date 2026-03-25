@@ -40,16 +40,17 @@ func handle_movement() -> void:
 	if state == State.HURT or state == State.KNOCKDOWN:
 		velocity = knockback_velocity
 		return
-	if state == State.GROUNDED or state == State.DEATH:
+	if state == State.GROUNDED or state == State.DEATH or state == State.ATTACK:
 		velocity = Vector2.ZERO
 		return
 	
 	var target := player.global_position + slot_offset
 	var distance := global_position.distance_to(target)
 	
-	if distance < 5.0:
+	if distance < ATTACK_RANGE:
 		velocity = Vector2.ZERO
-		state = State.IDLE
+		if state == State.WALK or state == State.IDLE:
+			state = State.ATTACK
 		return
 		
 	var direction := (target - global_position).normalized()
@@ -75,6 +76,11 @@ func handle_animation() -> void:
 		anim_name = "grounded"
 	elif state == State.DEATH:
 		anim_name = "death"
+	elif  state == State.ATTACK:
+		if punch_left:
+			anim_name = "punch_left"
+		else:
+			anim_name = "punch_right"
 		
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
@@ -90,6 +96,11 @@ func on_animation_finished(anim_name: String) -> void:
 		state = State.IDLE
 	elif anim_name == "death":
 		fade_out()
+	elif anim_name == "punch_left" or anim_name == "punch_right":
+		state = State.IDLE
+		has_hit = false
+		damage_emmiter.monitoring = false
+		punch_left = !punch_left
 	
 func flip_sprites() -> void:
 	if player == null:
