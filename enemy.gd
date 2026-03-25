@@ -61,7 +61,7 @@ func handle_animation() -> void:
 	var anim_name := ""
 	
 	if not animation_player.is_playing():
-		if state == State.DEATH or state == State.KNOCKDOWN or state == State.GROUNDED or state == State.ATTACK:
+		if state == State.DEATH or state == State.KNOCKDOWN or state == State.GROUNDED:
 			return
 	
 	if state == State.IDLE:
