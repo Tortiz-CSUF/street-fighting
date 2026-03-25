@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var speed: float = 35.0
 @export var health : int = 10
+@export var damage : int = 2
 
 @onready var animation_player := $AnimationPlayer
 @onready var character_sprite := $CharacterSprite
@@ -13,14 +14,18 @@ var player: CharacterBody2D = null
 enum State {IDLE, WALK, HURT, KNOCKDOWN, GROUNDED, DEATH, ATTACK}
 
 const KNOCKBACK_STRENGTH := 150.0
+const ATTACK_RANGE := 20.0
 
 var state = State.IDLE
 var slot_offset := Vector2.ZERO
 var knockback_velocity := Vector2.ZERO
+var has_hit := false
+var punch_left := true
 
 func _ready() -> void:
 	damage_receiver.damage_received.connect(on_receive_damage.bind())
 	animation_player.animation_finished.connect(on_animation_finished.bind())
+	damage_emmiter.area_entered.connect(on_emit_damage.bind())
 
 func _process(delta: float) -> void:
 	if player == null:
@@ -93,6 +98,14 @@ func flip_sprites() -> void:
 		character_sprite.flip_h = false
 	else:
 		character_sprite.flip_h = true
+
+func on_emit_damage(damage_receiver: DamageReceiver) -> void:
+	if has_hit:
+		return
+		
+	has_hit = true
+	var direction := Vector2.LEFT if damage_receiver.global_position.x < global_position.x else Vector2.RIGHT
+	damage_receiver.damage_received.emit(damage, direction, false)
 	
 func on_receive_damage(dmg: int, direction: Vector2, is_knckdown: bool = false) -> void:
 	if state == State.HURT or state == State.KNOCKDOWN or state == State.GROUNDED or state == State.DEATH:
